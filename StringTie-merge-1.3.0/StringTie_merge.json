@@ -1,0 +1,202 @@
+{
+    "name": "StringTie-merge",
+    "parallelism": "PARALLEL",
+    "version": "1.3.0",
+    "helpURI": "http://labshare.cshl.edu/shares/gingeraslab/www-data/dobin/STAR/STAR.sandbox/doc/STARmanual.pdf",
+    "label": "StringTie-merge-1.3.0",
+    "shortDescription": "StringTie RNAseq assembler",
+    "longDescription": "StringTie is a fast and highly efficient assembler of RNA-Seq alignments into potential transcripts",
+    "author": "Kapeel Chougule",
+    "datePublished": "10/06/2016",
+    "tags": [
+        "gtf"
+    ],
+    "ontology": [
+        "http://sswapmeet.sswap.info/sequenceServices/SequenceServices",
+        "http://edamontology.org/operation_0547",
+        "http://edamontology.org/topic_3293", 
+        "http://sswapmeet.sswap.info/iplant/apps/Application"
+    ],
+    "defaultMaxRunTime": "36:00:00",
+    "defaultQueue": "debug",
+    "executionSystem": "cshl-compute-10",
+    "executionType": "HPC",
+    "deploymentPath": "kapeelc/applications/StringTie-merge-1.3.0",
+    "templatePath": "StringTie_merge_test.sh",
+    "testPath": "StringTie_merge_wrapper.sh",
+    "checkpointable": true,
+    "modules": [],
+    "inputs": [
+        {
+            "id": "annotation",
+            "value": {
+                "default": "",
+                "validator": "",
+                "visible": true,
+                "required": false,
+                "order": 1
+            },
+            "details": {
+                "label": "annotation file(GTF)",
+                "description": "annotation file for reference sequence"
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/sequence/FASTA"
+                ],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "gtf-0"
+                ]
+            }
+        },
+        {
+            "id": "seqFolder",
+            "value": {
+                "default": "",
+                "validator": "",
+                "visible": true,
+                "required": true,
+                "order": 2
+            },
+            "details": {
+                "label": "Directory of gtf files(.gtf)",
+                "description": "gtf files input directory got from stringTie assemmbly"
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/sequence/FASTA"
+                ],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "directory"
+                ]
+            }
+        }
+                ],
+    "parameters":[
+        {
+            "id": "min_trans_len",
+            "value": {
+                "default": "50",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details":
+                {"description":"minimum input transcript length to include in the merge ",
+                "label":"minimum input transcript length",
+                "visible":true,
+                "order": 2
+                },
+                "semantics":
+                {"ontology":["xs:string"]}
+        },
+        {
+            "id": "min_trans_cov",
+            "value": {
+                "default": "0",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "minimum input transcript coverage",
+                "description": "minimum input transcript coverage to include in the merge ",
+                "visible": true,
+                "order": 3
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "min_FPKM",
+            "value": {
+                "default": "0",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "minimum input transcript FPKM ",
+                "description": "minimum input transcript FPKM to include in the merge ",
+                "visible": true,
+                "order": 4
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "min_TPM",
+            "value": {
+                "default": "0",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "minimum input transcript TPM",
+                "description": "minimum input transcript TPM to include in the merge",
+                "visible": true,
+                "order": 5
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "min_isf_frac",
+            "value": {
+                "default": "0.01",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "minimum isoform fraction",
+                "description": "minimum isoform fraction",
+                "visible": true,
+                "order": 6
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        
+        }
+    ],
+    "outputs": [
+        {
+            "id": "output_file",
+            "value": {
+                "default": "merged_out",
+                "validator": "",
+                "required": true,
+                "visible": true,
+                "type": "string"
+            },
+            "details":
+                {"description":"output file name for the merged transcripts GTF",
+                "label":"output file name for the merged transcripts",
+                "visible":true,
+                "order": 1
+                },
+                "semantics":
+                {"ontology":["xs:string"]}
+        }
+    ]
+}

@@ -1,0 +1,351 @@
+{
+	"name": "star_index_align-stampede",
+	"parallelism": "PARALLEL",
+	"version": "2.5.2",
+	"helpURI": "http://labshare.cshl.edu/shares/gingeraslab/www-data/dobin/STAR/STAR.sandbox/doc/STARmanual.pdf",
+	"label": "Star-index-align",
+	"shortDescription": "STAR reference index and alignments",
+	"longDescription": "Creates a binary index of reference sequence and aligns reads to reference genome",
+	"author": "Kapeel Chougule",
+	"datePublished": "10/02/2016",
+	"tags": [
+		"index",
+		"NGS",
+		"genome",
+		"fastq reads"
+	],
+	"ontology": [
+		"http://sswapmeet.sswap.info/sequenceServices/SequenceServices"
+	],
+	"defaultMaxRunTime": "36:00:00",
+	"defaultQueue": "debug",
+	"executionSystem": "stampede.tacc.utexas.edu",
+	"executionType": "HPC",
+	"deploymentPath": "kapeelc/applications/Stampede_apps/Star-index-align-2.5.2",
+	"templatePath": "STAR_align_wrapper.sh",
+	"testPath": "STAR_align_test.sh",
+	"checkpointable": true,
+	"modules": [
+		"purge",
+        "load TACC",
+        "load irods",
+		"load samtools/1.2"
+	],
+	"inputs": [{
+		"id": "reference",
+		"value": {
+			"default": "",
+			"validator": "",
+			"visible": true,
+			"required": true,
+			"order": 1
+		},
+		"details": {
+			"label": "reference genome(FASTA)",
+			"description": "reference genome file."
+		},
+		"semantics": {
+			"ontology": [
+				"http://sswapmeet.sswap.info/sequence/FASTA"
+			],
+			"minCardinality": 1,
+			"fileTypes": [
+				"fasta-0"
+			]
+		}
+	}, {
+		"id": "annotation",
+		"value": {
+			"default": "",
+			"validator": "",
+			"visible": true,
+			"required": false,
+			"order": 2
+		},
+		"details": {
+			"label": "annotation file(GTF)",
+			"description": "annotation file for reference sequence"
+		},
+		"semantics": {
+			"ontology": [
+				"http://sswapmeet.sswap.info/sequence/FASTA"
+			],
+			"minCardinality": 1,
+			"fileTypes": [
+				"gtf-0"
+			]
+		}
+	}, {
+		"id": "seqFolder",
+		"value": {
+			"default": "",
+			"validator": "",
+			"visible": true,
+			"required": true,
+			"order": 3
+		},
+		"details": {
+			"label": "Directory of NGS read files(gz or bz2)",
+			"description": "Reads input directory"
+		},
+		"semantics": {
+			"ontology": [
+				"http://sswapmeet.sswap.info/sequence/FASTA"
+			],
+			"minCardinality": 1,
+			"fileTypes": [
+				"directory"
+			]
+		}
+	}],
+	"parameters": [{
+			"id": "seqmode",
+			"value": {
+				"default": "paired",
+				"order": 1,
+				"required": true,
+				"type": "enumeration",
+				"enum_values": [{
+					"paired": "paired"
+				}, {
+					"single": "single"
+				}],
+				"visible": true
+			},
+			"details": {
+				"description": "Sequencing mode, paired vs unpaired",
+				"label": "paired vs unpaired reads",
+				"visible": true
+			},
+			"semantics": {
+				"ontology": ["xs:string"]
+			}
+		}, {
+			"id": "outFilterType",
+			"value": {
+				"default": "Normal",
+				"order": 2,
+				"required": false,
+				"type": "enumeration",
+				"enum_values": [{
+					"Normal": "Normal"
+				}, {
+					"BySJout": "BySJout"
+				}],
+				"visible": true
+			},
+			"details": {
+				"description": "reduces the number of spurious junctions",
+				"label": "outFilterType",
+				"visible": true
+			},
+			"semantics": {
+				"ontology": ["xs:string"]
+			}
+		}, {
+			"id": "outFilterMultimapNmax",
+			"value": {
+				"default": "20",
+				"validator": "",
+				"required": false,
+				"visible": true,
+				"type": "string"
+			},
+			"details": {
+				"label": "outFilterMultimapNmax",
+				"description": "max number of multiple alignments allowed for a read: if exceeded, the read is considered unmapped",
+				"visible": true,
+				"order": 3
+			},
+			"semantics": {
+				"ontology": [
+					"xs:string"
+				]
+			}
+		}, {
+			"id": "alignSJoverhangMin",
+			"value": {
+				"default": "8",
+				"validator": "",
+				"required": false,
+				"visible": true,
+				"type": "string"
+			},
+			"details": {
+				"label": "alignSJoverhangMin",
+				"description": "minimum overhang for unannotated junctions",
+				"visible": true,
+				"order": 4
+			},
+			"semantics": {
+				"ontology": [
+					"xs:string"
+				]
+			}
+		}, {
+			"id": "alignSJDBoverhangMin",
+			"value": {
+				"default": "1",
+				"validator": "",
+				"required": false,
+				"visible": true,
+				"type": "string"
+			},
+			"details": {
+				"label": "alignSJDBoverhangMin",
+				"description": "minimum overhang for annotated junctions",
+				"visible": true,
+				"order": 5
+			},
+			"semantics": {
+				"ontology": [
+					"xs:string"
+				]
+			}
+		}, {
+			"id": "outFilterMismatchNmax",
+			"value": {
+				"default": "999",
+				"validator": "",
+				"required": false,
+				"visible": true,
+				"type": "string"
+			},
+			"details": {
+				"label": "outFilterMismatchNmax",
+				"description": "maximum number of mismatches per pair, large number switches off this filter",
+				"visible": true,
+				"order": 6
+			},
+			"semantics": {
+				"ontology": [
+					"xs:string"
+				]
+			}
+		}, {
+			"id": "alignIntronMin",
+			"value": {
+				"default": "20",
+				"validator": "",
+				"required": false,
+				"visible": true,
+				"type": "string"
+			},
+			"details": {
+				"label": "alignIntronMin",
+				"description": "minimum intron length",
+				"visible": true,
+				"order": 7
+			},
+			"semantics": {
+				"ontology": [
+					"xs:string"
+				]
+			}
+		}, {
+			"id": "alignIntronMax",
+			"value": {
+				"default": "1000000",
+				"validator": "",
+				"required": false,
+				"visible": true,
+				"type": "string"
+			},
+			"details": {
+				"label": "alignIntronMax",
+				"description": "maximum intron length",
+				"visible": true,
+				"order": 8
+			},
+			"semantics": {
+				"ontology": [
+					"xs:string"
+				]
+			}
+		}, {
+			"id": "alignMatesGapMax",
+			"value": {
+				"default": "1000000",
+				"validator": "",
+				"required": false,
+				"visible": true,
+				"type": "string"
+			},
+			"details": {
+				"label": "alignMatesGapMax",
+				"description": "maximum genomic distance between mates",
+				"visible": true,
+				"order": 9
+			},
+			"semantics": {
+				"ontology": [
+					"xs:string"
+				]
+			}
+		}
+
+	],
+	"outputs": [{
+			"id": "index",
+			"details": {
+				"label": "Output Index Directory",
+				"description": "The output directory for index files."
+			},
+			"semantics": {
+				"ontology": [],
+				"minCardinality": 1,
+				"maxCardinality": 1,
+				"fileTypes": [
+					"TEXT-0"
+				]
+			},
+			"value": {
+				"default": "index",
+				"required": true,
+				"type": "string",
+				"visible": false
+			}
+		}, {
+			"id": "output",
+			"details": {
+				"label": "Output Directory",
+				"description": "The output directory with alignemnt files and stats"
+			},
+			"semantics": {
+				"ontology": [],
+				"minCardinality": 1,
+				"maxCardinality": 1,
+				"fileTypes": [
+					"TEXT-0"
+				]
+			},
+			"value": {
+				"default": "output",
+				"required": true,
+				"type": "string",
+				"visible": false
+			}
+		}, {
+			"id": "bam",
+			"details": {
+				"label": "bam output",
+				"description": "The output directory with bam alignemnt files "
+			},
+			"semantics": {
+				"ontology": [],
+				"minCardinality": 1,
+				"maxCardinality": 1,
+				"fileTypes": [
+					"TEXT-0"
+				]
+			},
+			"value": {
+				"default": "output",
+				"required": true,
+				"type": "string",
+				"visible": false
+			}
+		}
+
+	]
+}

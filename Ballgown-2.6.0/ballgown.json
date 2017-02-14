@@ -1,0 +1,96 @@
+{
+    "name": "Ballgown",
+    "parallelism": "SERIAL",
+    "version": "2.6.0",
+    "helpURI": "http://bioconductor.org/packages/release/bioc/manuals/ballgown/man/ballgown.pdf",
+    "label": "Ballgown-2.6.0",
+    "shortDescription": "Ballgown differential expression analysis of RNA-Seq data",
+    "longDescription": "Ballgown is a software package designed to facilitate flexible differential expression analysis of RNA-Seq data",
+    "author": "Kapeel Chougule",
+    "datePublished": "11/15/2016",
+    "tags": [
+        "differntial experssion",
+        "ctab",
+        "gtf"
+    ],
+    "ontology": [
+        "http://sswapmeet.sswap.info/sequenceServices/SequenceServices"
+    ],
+    "defaultMaxRunTime": "36:00:00",
+    "defaultQueue": "debug",
+    "executionSystem": "cshl-compute-10",
+    "executionType": "HPC",
+    "deploymentPath": "kapeelc/applications/Ballgown-2.6.0",
+    "templatePath": "ballgown_wrapper.sh",
+    "testPath": "ballgown_test.sh",
+    "checkpointable": true,
+    "modules": [],
+    "inputs": [
+        {
+            "id": "desgin_matrix",
+            "value": {
+                "default": "",
+                "validator": "",
+                "visible": true,
+                "required": false,
+                "order": 1
+            },
+            "details": {
+                "label": "design matrix",
+                "description": "experimental design matrix"
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/sequence/FASTA"
+                ],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "raw-0"
+                ]
+            }
+        },
+        {
+            "id": "ballgownFolder",
+            "value": {
+                "default": "",
+                "validator": "",
+                "visible": true,
+                "required": true,
+                "order": 2
+            },
+            "details": {
+                "label": "Directory of ctab files from stringtie output",
+                "description": "ctab files input directory"
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/sequence/FASTA"
+                ],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "directory"
+                ]
+            }
+        }
+                ],
+    "parameters":[
+        {
+            "id": "covariate",
+            "value": {
+                "default": "",
+                "validator": "",
+                "required": true,
+                "visible": true,
+                "type": "string"
+            },
+            "details":
+                {"description":"one including the covariate of interest (e.g., case/control status or time)",
+                "label":"covariate of the experiment",
+                "visible":true
+                },
+                "semantics":
+                {"ontology":["xs:string"]}
+        }
+
+    ]
+}

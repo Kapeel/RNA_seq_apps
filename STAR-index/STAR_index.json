@@ -1,0 +1,98 @@
+{
+    "name": "star_index",
+    "parallelism": "PARALLEL",
+    "version": "2.5.1a",
+    "helpURI": "http://labshare.cshl.edu/shares/gingeraslab/www-data/dobin/STAR/STAR.sandbox/doc/STARmanual.pdf",
+    "label": "Star-index",
+    "shortDescription": "STAR reference index",
+    "longDescription": "Creates a binary index of reference sequence.",
+    "author": "Kapeel Chougule",
+    "datePublished": "08/02/2016",
+    "tags": [
+        "index",
+        "NGS",
+        "genome"
+    ],
+    "ontology": [
+        "http://sswapmeet.sswap.info/sequenceServices/SequenceServices"
+    ],
+    "defaultMaxRunTime": "1:00:00",
+    "defaultQueue": "debug",
+    "executionSystem": "cshl-compute-10",
+    "deploymentPath": "/iplant/home/kapeelc/applications/STAR-index",
+    "templatePath": "STAR_index.sh",
+    "testPath": "STAR_index_test.sh",
+    "checkpointable": true,
+    "modules": [],
+    "inputs": [
+        {
+            "id": "reference",
+            "value": {
+                "default": "",
+                "validator": "",
+                "visible": true,
+                "required": true,
+                "order": 1
+            },
+            "details": {
+                "label": "reference fasta",
+                "description": "reference genome file."
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/sequence/FASTA"
+                ],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "fasta-0"
+                ]
+            }
+        },
+              {
+            "id": "annotation",
+            "value": {
+                "default": "",
+                "validator": "",
+                "visible": true,
+                "required": true,
+                "order": 2
+            },
+            "details": {
+                "label": "annotation",
+                "description": "annotation file for reference sequence"
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/sequence/FASTA"
+                ],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "gtf-0"
+                ]
+            }
+        }
+                ],
+    "outputs": [
+        {
+            "id": "index",
+            "details": {
+                "label": "Output Directory",
+                "description": "The output directory."
+            },
+            "semantics": {
+                "ontology": [],
+                "minCardinality": 1,
+                "maxCardinality": 1,
+                "fileTypes": [
+                    "TEXT-0"
+                ]
+            },
+            "value": {
+                "default": "inde",
+                "required": true,
+                "type": "string",
+                "visible": false
+            }
+        }
+    ]
+}

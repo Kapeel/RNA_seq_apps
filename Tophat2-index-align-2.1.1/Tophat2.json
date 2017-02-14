@@ -1,0 +1,510 @@
+{
+    "name": "Tophat2_index_align",
+    "parallelism": "PARALLEL",
+    "version": "2.1.1",
+    "helpURI": "https://ccb.jhu.edu/software/hisat2/manual.shtml",
+    "label": "Tophat2_index_align",
+    "shortDescription": "Tophat2 reference index and alignments",
+    "longDescription": "Creates a binary index of reference sequence and aligns reads to reference genome",
+    "author": "Kapeel Chougule",
+    "datePublished": "10/17/2016",
+    "tags": [
+        "index",
+        "NGS",
+        "genome",
+        "fastq reads"
+    ],
+    "ontology": [
+        "http://sswapmeet.sswap.info/sequenceServices/SequenceServices",
+        "http://edamontology.org/operation_0547",
+        "http://edamontology.org/topic_3293", 
+        "http://sswapmeet.sswap.info/iplant/apps/Application"
+    ],
+    "defaultMaxRunTime": "36:00:00",
+    "defaultQueue": "debug",
+    "executionSystem": "cshl-compute-10",
+    "executionType": "HPC",
+    "deploymentPath": "kapeelc/applications/Tophat2-index-align-2.1.1",
+    "templatePath": "Topaht2_align_wrapper.sh",
+    "testPath": "Topaht2_align_test.sh",
+    "checkpointable": true,
+    "modules": [],
+    "inputs": [
+        {
+            "id": "reference",
+            "value": {
+                "default": "",
+                "validator": "",
+                "visible": true,
+                "required": true,
+                "order": 1
+            },
+            "details": {
+                "label": "reference genome(FASTA)",
+                "description": "reference genome file."
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/sequence/FASTA"
+                ],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "fasta-0"
+                ]
+            }
+        },
+        {
+            "id": "annotation",
+            "value": {
+                "default": "",
+                "validator": "",
+                "visible": true,
+                "required": false,
+                "type": "string",
+                "order": 2
+            },
+            "details": {
+                "label": "annotation file(GTF)",
+                "description": "annotation file for reference sequence"
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/sequence/FASTA"
+                ],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "gtf-0"
+                ]
+            }
+        },
+        {
+            "id": "seqFolder",
+            "value": {
+                "default": "",
+                "validator": "",
+                "visible": true,
+                "required": true,
+                "order": 2
+            },
+            "details": {
+                "label": "Directory of NGS read files(fastq,fq,gz or bz2)",
+                "description": "Reads input directory"
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/sequence/FASTA"
+                ],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "directory"
+                ]
+            }
+        }
+                ],
+    "parameters":[
+        {
+            "id": "seqmode",
+            "value":
+                {"default" : "paired",
+                "order":1,
+                "required":true,
+                "type":"enumeration",
+                "enum_values": [
+                        { "paired": "paired"},
+                        { "single": "single"}
+                    ],
+                "visible":true},
+            "details":
+                {"description":"Sequencing mode, paired vs unpaired",
+                "label":"paired vs unpaired reads",
+                "visible":true
+                },
+                "semantics":
+                {"ontology":["xs:string"]}
+        },
+        {
+            "id": "rna_strandness",
+            "value":
+                {"default" : "unstranded",
+                "order":3,
+                "required":false,
+                "type":"enumeration",
+                "enum_values": [
+                        { "fr-unstranded":"unstranded"},
+                        { "fr-firststrand":"firststrand"},
+                        { "fr-secondstrand":"secondstrand"}
+                    ],
+                "visible":true},
+            "details":
+                {"description":"Read orientation",
+                "label":"Library type information",
+                "visible":true
+                },
+                "semantics":
+                {"ontology":["xs:string"]}
+        },
+        
+        {
+            "id": "mate_inner_dist",
+            "value": {
+                "default": "50",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "expected (mean) inner distance between mate pairs",
+                "description": "expected (mean) inner distance between mate pairs",
+                "visible": true,
+                "order": 4
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "min_anchor_length",
+            "value": {
+                "default": "8",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "anchor length",
+                "description": "TopHat will report junctions spanned by reads with at least this many bases on each side of the junction.",
+                "visible": true,
+                "order": 5
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "splice_mismatches",
+            "value": {
+                "default": "0",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "maximum number of mismatches that may appear in the anchor region of a spliced alignment",
+                "description": "maximum number of mismatches that may appear in the anchor region of a spliced alignment",
+                "visible": true,
+                "order": 6
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "min_intron_length",
+            "value": {
+                "default": "70",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "Sets minimum intron length",
+                "description": "Sets minimum intron length",
+                "visible": true,
+                "order": 7
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "max_intron_length",
+            "value": {
+                "default": "50000",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "Sets maximum intron length",
+                "description": "Sets maximum intron length",
+                "visible": true,
+                "order": 8
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "max_multihits",
+            "value": {
+                "default": "20",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "max_multihits",
+                "description": " allow up to this many alignments to the reference for a given read",
+                "visible": true,
+                "order": 9
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "min_segment_intron",
+            "value": {
+                "default": "50",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "minimum intron length that may be found during split-segment search",
+                "description": "minimum intron length that may be found during split-segment search",
+                "visible": true,
+                "order": 10
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "max_segment_intron",
+            "value": {
+                "default": "500000",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "maximum intron length that may be found during split-segment search",
+                "description": "maximum intron length that may be found during split-segment search",
+                "visible": true,
+                "order": 11
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "segment_mismatches",
+            "value": {
+                "default": "2",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "allowed mismatches in each segment alignment",
+                "description": "allowed mismatches in each segment alignment",
+                "visible": true,
+                "order": 12
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "segment_length",
+            "value": {
+                "default": "25",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "Cut read into segments of this length",
+                "description": "Each read is cut up into segments, each at least this long. These segments are mapped independently",
+                "visible": true,
+                "order": 13
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "read_mismatches",
+            "value": {
+                "default": "2",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "read mismatches to discard",
+                "description": "Final read alignments having more than these many mismatches are discarded",
+                "visible": true,
+                "order": 14
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "read_gap_length",
+            "value": {
+                "default": "2",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "length of gaps to discard",
+                "description": "Final read alignments having more than these many total length of gaps are discarded",
+                "visible": true,
+                "order": 15
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "read_edit_dist",
+            "value": {
+                "default": "2",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "edit distance to discard",
+                "description": "Final read alignments having more than these many edit distance are discarded",
+                "visible": true,
+                "order": 16
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "mate_std_dev",
+            "value": {
+                "default": "20",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "standard deviation for the distribution on inner distances between mate pairs",
+                "description": "standard deviation for the distribution on inner distances between mate pairs",
+                "visible": true,
+                "order": 17
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        }
+
+    ],
+    "outputs": [
+        {
+            "id": "index",
+            "details": {
+                "label": "Output Index Directory",
+                "description": "The output directory for index files."
+            },
+            "semantics": {
+                "ontology": [],
+                "minCardinality": 1,
+                "maxCardinality": 1,
+                "fileTypes": [
+                    "TEXT-0"
+                ]
+            },
+            "value": {
+                "default": "index",
+                "required": true,
+                "type": "string",
+                "visible": false
+            }
+        },
+        {
+            "id": "output",
+            "details": {
+                "label": "bam output",
+                "description": "The output directory with bam alignemnt files "
+            },
+            "semantics": {
+                "ontology": [],
+                "minCardinality": 1,
+                "maxCardinality": 1,
+                "fileTypes": [
+                    "TEXT-0"
+                ]
+            },
+            "value": {
+                "default": "output",
+                "required": true,
+                "type": "string",
+                "visible": false
+            }
+        },
+        {
+            "id": "bam",
+            "details": {
+                "label": "bam output",
+                "description": "The output directory with bam alignemnt files "
+            },
+            "semantics": {
+                "ontology": [],
+                "minCardinality": 1,
+                "maxCardinality": 1,
+                "fileTypes": [
+                    "TEXT-0"
+                ]
+            },
+            "value": {
+                "default": "output",
+                "required": true,
+                "type": "string",
+                "visible": false
+            }
+        }
+
+
+    ]
+}
