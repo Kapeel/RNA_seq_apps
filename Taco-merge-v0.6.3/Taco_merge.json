@@ -1,0 +1,226 @@
+{
+    "name": "Taco-merge",
+    "parallelism": "PARALLEL",
+    "version": "0.6.3",
+    "helpURI": "http://tacorna.github.io/?start_page=build",
+    "label": "Taco-merge-v0.6.3",
+    "shortDescription": "TACO: Multi-sample transcriptome assembly from RNA-Seq",
+    "longDescription": "Transcriptome Assemblies Combined into One (TACO), an algorithm that reconstructs a consensus transcriptome from a collection of individual assemblies",
+    "author": "Kapeel Chougule",
+    "datePublished": "02/14/2016",
+    "tags": [
+        "gtf"
+    ],
+    "ontology": [
+        "http://sswapmeet.sswap.info/sequenceServices/SequenceServices",
+        "http://edamontology.org/operation_0547",
+        "http://edamontology.org/topic_3293", 
+        "http://sswapmeet.sswap.info/iplant/apps/Application"
+    ],
+    "defaultMaxRunTime": "36:00:00",
+    "defaultQueue": "debug",
+    "executionSystem": "cshl-compute-10",
+    "executionType": "HPC",
+    "deploymentPath": "kapeelc/applications/Taco-merge-v0.6.3",
+    "templatePath": "Taco_merge_test.sh",
+    "testPath": "Taco_merge_wrapper.sh",
+    "checkpointable": true,
+    "modules": [],
+    "inputs": [
+        {
+            "id": "reference",
+            "value": {
+                "default": "",
+                "validator": "",
+                "visible": true,
+                "required": false,
+                "order": 1
+            },
+            "details": {
+                "label": "reference genome(FASTA)",
+                "description": "reference genome file"
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/sequence/FASTA"
+                ],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "fasta-0"
+                ]
+            }
+        },
+        {
+      "id" : "annotation",
+      "value" : {
+        "validator" : "",
+        "visible" : true,
+        "required" : false,
+        "order" : 2,
+        "enquote" : false,
+        "default" : ""
+      },
+      "details" : {
+        "label" : "annotation file(GTF)",
+        "description" : "annotation file for reference sequence",
+        "argument" : null,
+        "showArgument" : false,
+        "repeatArgument" : false
+      },
+      "semantics" : {
+        "minCardinality" : 1,
+        "maxCardinality" : 1,
+        "ontology" : [ "http://sswapmeet.sswap.info/sequence/FASTA" ],
+        "fileTypes" : [ "gtf-0" ]
+      }
+    },
+        {
+            "id": "seqFolder",
+            "value": {
+                "default": "",
+                "validator": "",
+                "visible": true,
+                "required": true,
+                "order": 3
+            },
+            "details": {
+                "label": "Directory of gtf files(.gtf)",
+                "description": "gtf files input directory got from stringTie assemmbly"
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/sequence/FASTA"
+                ],
+                "minCardinality": 1,
+                "fileTypes": [
+                    "directory"
+                ]
+            }
+        }
+                ],
+    "parameters":[
+        {
+            "id": "output_file",
+            "value": {
+                "default": "taco_merged_out_gtf",
+                "validator": "",
+                "required": true,
+                "visible": true,
+                "type": "string"
+            },
+            "details":
+                {"description":"directory where output files will be stored",
+                "label":"output directory",
+                "visible":true,
+                "order": 1
+                },
+                "semantics":
+                {"ontology":["xs:string"]}
+        },
+        {
+            "id": "filter-min-length",
+            "value": {
+                "default": "200",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "filter-min-length",
+                "description": "Filter input transfrags with length < N prior to assembly",
+                "visible": true,
+                "order": 2
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "filter-min-expr",
+            "value": {
+                "default": "0",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "filter-min-expr",
+                "description": "Filter input transfrags with transcripts per milliion (TPM) < X prior to assembly",
+                "visible": true,
+                "order": 3
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "isoform-frac",
+            "value": {
+                "default": "0.05",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "isoform-frac",
+                "description": "Report transcript isoforms with expression fraction >= FRAC (0.0-1.0) relative to the major isoform within each gene",
+                "visible": true,
+                "order": 4
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        },
+        {
+            "id": "max-isoforms",
+            "value": {
+                "default": "0",
+                "validator": "",
+                "required": false,
+                "visible": true,
+                "type": "string"
+            },
+            "details": {
+                "label": "Maximum isoforms to report for each gene",
+                "description": "Maximum isoforms to report for each gene",
+                "visible": true,
+                "order": 5
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ]
+            }
+        
+        }
+    ],
+    "outputs": [
+        {
+            "id": "output_file",
+            "value": {
+                "default": "taco_merged_out_gtf",
+                "validator": "",
+                "required": true,
+                "visible": true,
+                "type": "string"
+            },
+            "details":
+                {"description":"output file name for the merged transcripts GTF",
+                "label":"output file name for the merged transcripts",
+                "visible":true,
+                "order": 1
+                },
+                "semantics":
+                {"ontology":["xs:string"]}
+        }
+    ]
+}
