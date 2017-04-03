@@ -1,10 +1,10 @@
 #!/usr/bin/env Rscript
 
-.libPaths(getwd())
-install.packages("getopt", repos="http://lib.stat.cmu.edu/R/CRAN", lib=getwd())
-source("http://bioconductor.org/biocLite.R")
-biocLite("ballgown")
-.libPaths(getwd())
+#.libPaths(getwd())
+#install.packages("getopt", repos="http://lib.stat.cmu.edu/R/CRAN", lib=getwd())
+#source("http://bioconductor.org/biocLite.R")
+#biocLite("ballgown")
+#.libPaths(getwd())
 
 library("getopt")
 library("ballgown")
