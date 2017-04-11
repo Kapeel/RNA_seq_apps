@@ -1,0 +1,210 @@
+{
+	"name": "InterProScan",
+	"parallelism": "PARALLEL",
+	"version": "5.23.62",
+	"helpURI": "https://github.com/ebi-pf-team/interproscan/wiki/HowToRun",
+	"label": "InterProScan-5.23.62",
+	"shortDescription": "InterPro is a database which integrates together predictive information about proteins",
+	"longDescription": "InterPro is a database which integrates together predictive information about proteins",
+	"author": "Kapeel Chougule",
+	"datePublished": "04/07/2017",
+	"tags": [
+		"protiens",
+		"datab",
+		"sequence"	
+	],
+	"ontology": [
+		"http://sswapmeet.sswap.info/sequenceServices/SequenceServices"
+	],
+	"defaultMaxRunTime": "36:00:00",
+	"defaultQueue": "debug",
+	"executionSystem": "cshl-compute-10",
+	"executionType": "HPC",
+	"deploymentPath": "kapeelc/applications/InterProScan-5.23.62",
+	"templatePath": "IPS.wrapper.sh",
+	"testPath": "IPS.test.sh",
+	"checkpointable": true,
+	"modules": [],
+	"inputs": [{
+		"id": "input_file",
+		"value": {
+			"default": "",
+			"validator": "",
+			"visible": true,
+			"required": true,
+			"order": 1
+		},
+		"details": {
+			"label": "input sequence file",
+			"description": "input sequence file protien or dna/rna"
+		},
+		"semantics": {
+			"ontology": [
+				"http://sswapmeet.sswap.info/sequence/FASTA"
+			],
+			"minCardinality": 1,
+			"fileTypes": [
+				"fasta-0"
+			]
+		}
+	}],
+	"parameters": [{
+		"id": "format",
+		"value": {
+			"default": "XML",
+			"required": false,
+			"visible": true,
+			"type": "enumeration",
+			"enum_values" : [ {
+          			"TSV" : "TSV"
+        					}, {
+          			"XML" : "XML"
+        					},
+        			{
+          			"JSON" : "JSON"
+        					}, {
+          			"GFF3" : "GFF3"
+        					},
+        			{
+          			"HTML" : "HTML"
+        					}, {
+          			"SVG" : "SVG"
+        					} ]
+		},
+		"details": {
+			"description": "Supported output formats are TSV, XML, JSON, GFF3, HTML and SVG",
+			"label": "output format",
+			"visible": true,
+			"order": 1
+		},
+		"semantics": {
+			"ontology": ["xs:string"]
+		}
+	}, {
+		"id": "applications",
+		"value": {
+			"default": "",
+			"validator": "",
+			"required": false,
+			"visible": true,
+			"type": "string"
+		},
+		"details": {
+			"description": "comma separated list of analyses ex: PrositePatterns,ProDom,Gene3d,Panther,SMART,PRINTS,PFAM,TIGRFAM,PrositeProfiles,PIRSF,SuperFamily,SignalP_EUK,Coils,TMHMM,Hamap",
+			"label": "comma separated list of analyses",
+			"visible": true,
+			"order": 2
+		},
+		"semantics": {
+			"ontology": ["xs:string"]
+		}
+	}, {
+		"id": "seqtype",
+		"value": {
+			"default": "p",
+			"required": false,
+			"visible": true,
+			"type": "enumeration",
+			"enum_values" : [ {
+          			"Protein" : "p"
+        					}, {
+          			"DNA/RNA" : "n"
+        					}]
+        			},
+		"details": {
+			"label": "input sequence type",
+			"description": "input sequence type protien/dna/rna",
+			"visible": true,
+			"order": 3
+		},
+		"semantics": {
+			"ontology": [
+				"xs:string"
+			]
+		}
+	}, {
+		"id": "disprcal",
+		"value": {
+			"visible": false,
+			"required": false,
+			"type": "bool",
+			"order": 4,
+			"default": true,
+			"enquote": false
+		},
+		"details": {
+			"label": "Disables use of the precalculated match lookup service",
+			"description": "Disables use of the precalculated match lookup service",
+			"visible": true
+		},
+		"semantics": {
+			"minCardinality": 0,
+			"maxCardinality": 1,
+			"ontology": [
+				"xs:boolean"
+			]
+		}
+	}, {
+		"id": "goterms",
+		"value": {
+			"visible": true,
+			"required": false,
+			"type": "bool",
+			"order": 5,
+			"default": false,
+			"enquote": false
+		},
+		"details": {
+			"label": "Gene Ontology Annotation Lookup ",
+			"description": "Gene Ontology Annotation Lookup",
+			"visible": true
+		},
+		"semantics": {
+			"minCardinality": 0,
+			"maxCardinality": 1,
+			"ontology": []
+		}
+	},{
+		"id": "iprlookup",
+		"value": {
+			"visible": true,
+			"required": false,
+			"type": "bool",
+			"order": 6,
+			"default": true,
+			"enquote": false
+		},
+		"details": {
+			"label": "InterPro Annotation Lookup",
+			"description": "InterPro Annotation Lookup",
+			"visible": true
+		},
+		"semantics": {
+			"minCardinality": 0,
+			"maxCardinality": 1,
+			"ontology": []
+		}
+	}],
+	"outputs": [{
+			"id": "outputDir",
+			"details": {
+				"label": "output directory",
+				"description": "This output directory has all files from InterProScan run."
+			},
+			"semantics": {
+				"ontology": [],
+				"minCardinality": 1,
+				"maxCardinality": 1,
+				"fileTypes": [
+					"TEXT-0"
+				]
+			},
+			"value": {
+				"default": "output",
+				"required": true,
+				"type": "string",
+				"visible": true
+			}
+		}]
+}
+
